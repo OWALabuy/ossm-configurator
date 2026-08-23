@@ -54,10 +54,15 @@ Resolution order should be:
 2. sibling `../ossm-hardware` when it matches the expected source;
 3. a downloaded cache of the pinned commit.
 
-The build should report the actual commit it used and fail when a supposedly
-pinned input cannot be identified. A dirty local source may be allowed during
-development, but it must be visibly reported and must not masquerade as the
-locked commit in an export.
+An existing Git checkout qualifies when it contains the locked commit object;
+its current branch does not have to be switched. Referenced files are read from
+the exact locked Git tree rather than from the working tree. When neither local
+checkout contains that object, the preparation command fetches only the locked
+SHA into `sources/.cache/ossm-hardware`.
+
+The build reports the commit it used and fails when the pinned tree cannot be
+identified. A dirty local working tree is never read as locked input and must
+not masquerade as the locked commit in an export.
 
 ## Catalog compilation
 
@@ -169,4 +174,3 @@ The Vite base path must support both:
 
 Local use remains `npm run dev` after dependencies and referenced source assets
 are available.
-

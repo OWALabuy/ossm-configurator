@@ -307,7 +307,11 @@ function selectionForSingleCardinalitySlots(
   return Object.fromEntries(
     Object.entries(selection).map(([slotId, value]) => [
       slotId,
-      typeof value === 'string' ? value : undefined,
+      typeof value === 'string'
+        ? value
+        : Array.isArray(value) && value.length === 1
+          ? value[0]
+          : undefined,
     ]),
   )
 }

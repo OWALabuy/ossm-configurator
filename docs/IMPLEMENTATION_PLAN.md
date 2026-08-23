@@ -4,6 +4,9 @@
 
 The goal is a small but real vertical slice, not a static mockup.
 
+**Status:** Implemented on 2026-08-24. The checks below remain the regression
+contract for subsequent catalog and UI changes.
+
 ### Task 1: application scaffold
 
 - Create a Vite React TypeScript application.
@@ -159,4 +162,3 @@ Once the prototype proves the schema:
 4. publish a versioned normalized catalog artifact;
 5. request an official documentation link or domain only after a stable demo
    exists.
-

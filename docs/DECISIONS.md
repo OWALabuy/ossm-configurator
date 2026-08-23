@@ -73,3 +73,15 @@ hardware commit SHA.
 **Why:** Printed files and documentation have changed without a coherent public
 version boundary. A BOM without its source revision is not reproducible.
 
+## D-009: License the configurator software under MIT
+
+**Decision:** License the configurator's original software and documentation
+under the MIT License.
+
+**Why:** The repository owner prefers a short permissive software license that
+allows reuse without imposing a reciprocal software-license requirement.
+
+**Boundary:** Hardware source assets retain the CERN-OHL-S-2.0 terms of the
+source repository. Generated or copied hardware assets must retain applicable
+notices and source-location provenance; the MIT license does not relicense
+them.

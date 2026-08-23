@@ -60,8 +60,7 @@ document commands before they work.
 
 ## Project ownership and license
 
-The repository owner is `OWALabuy`. A software license has not yet been chosen;
-do not copy third-party application code into the repository until licensing is
-decided. Hardware source files remain governed by their source repository's
-license.
-
+The repository owner is `OWALabuy`. Original configurator software and
+documentation are available under the [MIT License](LICENSE). Hardware source
+files and generated derivatives remain governed by their source repository's
+CERN-OHL-S-2.0 license and retain source provenance.

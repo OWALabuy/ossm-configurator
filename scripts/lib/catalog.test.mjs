@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 import {
   CatalogValidationError,
   loadAndValidateCatalog,
+  loadCollection,
   repositoryRoot,
   validateCatalogSemantics,
   validateCatalogShape,
@@ -16,6 +17,14 @@ function clone(value) {
 }
 
 describe('catalog compilation', () => {
+  it('treats an absent optional collection directory as empty', async () => {
+    await expect(
+      loadCollection('optional-directory-that-does-not-exist', {
+        optional: true,
+      }),
+    ).resolves.toEqual({ values: [], origins: [] })
+  })
+
   it('loads and normalizes the repository catalog', async () => {
     const { normalized } = await loadAndValidateCatalog()
 

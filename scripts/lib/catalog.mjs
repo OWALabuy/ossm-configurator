@@ -14,7 +14,7 @@ const collections = [
   ['slots', 'slots'],
   ['options', 'options'],
   ['parts', 'parts'],
-  ['offers', 'offers'],
+  ['offers', 'offers', true],
   ['assets', 'assets'],
 ]
 
@@ -50,9 +50,17 @@ async function parseYamlFile(filePath) {
   return document.toJS()
 }
 
-async function loadCollection(directoryName) {
+export async function loadCollection(directoryName, { optional = false } = {}) {
   const directoryPath = path.join(repositoryRoot, 'catalog', directoryName)
-  const entries = await readdir(directoryPath, { withFileTypes: true })
+  let entries
+  try {
+    entries = await readdir(directoryPath, { withFileTypes: true })
+  } catch (error) {
+    if (optional && error?.code === 'ENOENT') {
+      return { values: [], origins: [] }
+    }
+    throw error
+  }
   const yamlFiles = entries
     .filter(
       (entry) =>
@@ -444,9 +452,9 @@ export async function loadAndValidateCatalog() {
   ])
 
   const loadedCollections = await Promise.all(
-    collections.map(async ([collectionName, directoryName]) => [
+    collections.map(async ([collectionName, directoryName, optional]) => [
       collectionName,
-      await loadCollection(directoryName),
+      await loadCollection(directoryName, { optional }),
     ]),
   )
   const origins = Object.fromEntries(

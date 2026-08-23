@@ -1,0 +1,3 @@
+id: motor.interface:pigtail-db9
+label: Captive pigtail with DB9 connector
+description: The motor has a captive rear cable terminating in a DB9 connector.

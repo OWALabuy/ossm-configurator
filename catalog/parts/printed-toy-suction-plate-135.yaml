@@ -1,0 +1,16 @@
+id: printed.toy.suction-plate-135
+label: Printed 135 mm tie-down and suction plate
+kind: printed_part
+specification:
+  source_format: STL
+  nominal_diameter_mm: 135
+default_unit: each
+evidence:
+  state: builder_verified
+  notes: Stable printed-part identity for the audited toy interface at the locked hardware revision.
+  sources:
+    - kind: project_document
+      path: docs/HARDWARE_FINDINGS.md
+    - kind: repository
+      path: Printed Parts/Toy Mounting/Non-standard/OSSM - Toy Mounting - Tie Down And Suction Plate 135mm.stl
+      commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8

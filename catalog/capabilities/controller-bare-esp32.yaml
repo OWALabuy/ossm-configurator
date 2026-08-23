@@ -1,0 +1,3 @@
+id: controller.family:bare-esp32
+label: Bare ESP32 controller
+description: Control electronics use an ESP32 development board without the OSSM reference PCB.

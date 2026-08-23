@@ -1,0 +1,5 @@
+id: motor_mount
+label: Motor mount
+description: Connects the selected motor geometry to the OSSM structure.
+cardinality: one
+order: 20

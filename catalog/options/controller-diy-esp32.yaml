@@ -1,0 +1,42 @@
+id: controller.diy-esp32
+slot: controller
+label: DIY ESP32 controller
+description: ESP32 development board with discrete wiring and no OSSM reference PCB.
+status: experimental
+provides:
+  - controller.family:bare-esp32
+requires: []
+conflicts: []
+assets: []
+bom:
+  - part: controller.esp32-development-board
+    quantity: 1
+    reason: Selected controller architecture.
+evidence:
+  state: builder_verified
+  notes: The audited build uses an ESP32 development board without the OSSM reference PCB; this is not a complete or verified wiring design.
+  sources:
+    - kind: project_document
+      path: docs/HARDWARE_FINDINGS.md
+warnings:
+  - id: stock-homing-current-sense-missing
+    severity: critical
+    message: A bare ESP32 does not meet stock sensorless-homing requirements unless equivalent GPIO36 current-sense hardware or validated alternate firmware is added. A GPIO12 limit switch alone does not satisfy stock homing.
+    evidence:
+      state: repository_verified
+      notes: Stock homing samples motor current on GPIO36. GPIO12 is defined and appears in telemetry but is not read by the current homing routine.
+      sources:
+        - kind: repository
+          path: Software/src/ossm/homing/homing.cpp
+          commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8
+        - kind: project_document
+          path: docs/HARDWARE_FINDINGS.md
+  - id: diy-motor-drive-unresolved
+    severity: critical
+    message: Direct drive and wiring for the audited pigtail motor are unresolved and must not be treated as build instructions.
+    evidence:
+      state: unresolved
+      notes: The reference PCB adds protection, regulation, transistor interfaces, and motor-current sensing that a bare ESP32 does not provide.
+      sources:
+        - kind: project_document
+          path: docs/HARDWARE_FINDINGS.md

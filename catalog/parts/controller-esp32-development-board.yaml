@@ -1,0 +1,13 @@
+id: controller.esp32-development-board
+label: ESP32 development board
+kind: controller
+specification:
+  architecture: bare_esp32
+  reference_pcb_included: false
+default_unit: each
+evidence:
+  state: builder_verified
+  notes: The audited controller uses an ESP32 development board and discrete wiring; this identity does not imply validated motor drive or homing electronics.
+  sources:
+    - kind: project_document
+      path: docs/HARDWARE_FINDINGS.md

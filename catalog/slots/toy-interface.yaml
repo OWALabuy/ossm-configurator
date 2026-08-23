@@ -1,0 +1,5 @@
+id: toy_interface
+label: Toy interface
+description: Selects the physical interface at the actuator output.
+cardinality: one
+order: 40

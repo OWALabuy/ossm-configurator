@@ -1,0 +1,3 @@
+id: motor.rear:ring-passable
+label: Rear geometry can pass through a motor ring
+description: The complete rear geometry can be passed through a one-piece mounting ring.

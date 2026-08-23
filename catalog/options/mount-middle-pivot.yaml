@@ -1,0 +1,26 @@
+id: mount.middle-pivot
+slot: motor_mount
+label: Body Middle Pivot
+description: Non-standard legacy body used by the audited builder after the PitClamp ring proved incompatible.
+status: supported
+provides:
+  - mount.family:middle-pivot
+requires:
+  - motor.frame:nema23-57
+conflicts: []
+assets:
+  - model.middle-pivot
+bom:
+  - part: printed.mount.middle-pivot
+    quantity: 1
+    reason: Selected motor-mount body.
+evidence:
+  state: builder_verified
+  notes: This was the motor-mount route used on the audited pigtail-motor build; it is not claimed as the universal OSSM default.
+  sources:
+    - kind: project_document
+      path: docs/HARDWARE_FINDINGS.md
+    - kind: repository
+      path: Printed Parts/Actuator/Non-standard/OSSM - Actuator - Body - Middle Pivot.stl
+      commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8
+warnings: []

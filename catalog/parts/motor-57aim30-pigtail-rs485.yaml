@@ -1,0 +1,15 @@
+id: commercial.motor.57aim30-pigtail-rs485
+label: 57AIM30 1500 RPM pigtail / DB9 motor
+kind: motor
+specification:
+  model_marking: 57AIM30
+  rated_speed_rpm: 1500
+  connector_geometry: captive_pigtail_db9
+  interface_marking: RS485
+default_unit: each
+evidence:
+  state: builder_verified
+  notes: These markings and the captive connector geometry were observed on the audited motor; the communication protocol is not validated.
+  sources:
+    - kind: project_document
+      path: docs/HARDWARE_FINDINGS.md

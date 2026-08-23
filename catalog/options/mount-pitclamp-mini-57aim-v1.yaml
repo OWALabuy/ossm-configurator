@@ -1,0 +1,35 @@
+id: mount.pitclamp-mini-57aim-v1
+slot: motor_mount
+label: PitClamp Mini - 57AIM V1.1
+description: Current one-piece 57AIM motor ring for the PitClamp Mini family.
+status: supported
+provides:
+  - mount.family:pitclamp-mini
+requires:
+  - motor.frame:nema23-57
+  - motor.rear:ring-passable
+conflicts:
+  - capability: motor.interface:pigtail-db9
+    explanation: The captive motor tail and DB9 connector cannot pass through the PitClamp Mini's one-piece motor ring.
+    evidence:
+      state: builder_verified
+      notes: The builder physically attempted this combination and the captive tail prevented insertion through the non-splitting ring.
+      sources:
+        - kind: project_document
+          path: docs/HARDWARE_FINDINGS.md
+assets:
+  - model.pitclamp-mini-57aim-v1
+bom:
+  - part: printed.mount.pitclamp-mini-57aim-v1
+    quantity: 1
+    reason: Selected motor-mount ring.
+evidence:
+  state: repository_verified
+  notes: The locked STL is a connected, non-splitting solid. The audited pigtail motor could not pass through it.
+  sources:
+    - kind: repository
+      path: Printed Parts/Mounting/OSSM - Mounting Ring - PitClamp Mini - 57AIM V1.1.stl
+      commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8
+    - kind: project_document
+      path: docs/HARDWARE_FINDINGS.md
+warnings: []

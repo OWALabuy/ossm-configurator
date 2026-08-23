@@ -1,0 +1,31 @@
+id: motor.57aim30-pigtail-rs485
+slot: motor_interface
+label: 57AIM30 pigtail / DB9 motor
+description: Builder-audited 1500 RPM motor with a captive pigtail and RS485-labelled DB9 interface.
+status: experimental
+provides:
+  - motor.frame:nema23-57
+  - motor.interface:pigtail-db9
+requires: []
+conflicts: []
+assets: []
+bom:
+  - part: commercial.motor.57aim30-pigtail-rs485
+    quantity: 1
+    reason: Selected motor.
+evidence:
+  state: builder_verified
+  notes: The physical motor, captive tail, DB9 connector, and 1500 RPM marking were observed on the audited build; operational RS485 details remain unresolved.
+  sources:
+    - kind: project_document
+      path: docs/HARDWARE_FINDINGS.md
+warnings:
+  - id: motor-rs485-unresolved
+    severity: warning
+    message: RS485 communication for this exact motor remains unresolved. This catalog does not provide a programming wiring diagram or claim that the motor interface has failed.
+    evidence:
+      state: unresolved
+      notes: Variant, pinout, isolated-interface power, bus settings, adapter wiring, and hardware condition have not been isolated; manufacturer investigation is pending.
+      sources:
+        - kind: project_document
+          path: docs/HARDWARE_FINDINGS.md

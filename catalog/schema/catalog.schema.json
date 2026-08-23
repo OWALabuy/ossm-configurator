@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://owalabuy.github.io/ossm-configurator/schema/catalog.schema.json",
+  "title": "OSSM configurator authoring catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "catalog_version",
+    "hardware_source",
+    "capabilities",
+    "slots",
+    "options",
+    "parts",
+    "offers",
+    "assets"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "catalog_version": { "$ref": "#/$defs/nonEmptyString" },
+    "hardware_source": { "$ref": "#/$defs/hardwareSource" },
+    "capabilities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/capability" }
+    },
+    "slots": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/slot" }
+    },
+    "options": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/option" }
+    },
+    "parts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/part" }
+    },
+    "offers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/offer" }
+    },
+    "assets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/asset" }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "capabilityId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*:[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "evidenceState": {
+      "enum": [
+        "builder_verified",
+        "repository_verified",
+        "expected",
+        "unresolved",
+        "deprecated",
+        "known_incorrect"
+      ]
+    },
+    "evidenceSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path"],
+      "properties": {
+        "kind": {
+          "enum": ["project_document", "repository", "field_observation"]
+        },
+        "path": { "$ref": "#/$defs/nonEmptyString" },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "note": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "notes", "sources"],
+      "properties": {
+        "state": { "$ref": "#/$defs/evidenceState" },
+        "notes": { "$ref": "#/$defs/nonEmptyString" },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/evidenceSource" }
+        }
+      }
+    },
+    "hardwareSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit"],
+      "properties": {
+        "repository": { "$ref": "#/$defs/nonEmptyString" },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "description"],
+      "properties": {
+        "id": { "$ref": "#/$defs/capabilityId" },
+        "label": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "description", "cardinality", "order"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "cardinality": { "enum": ["one", "zero_or_one"] },
+        "order": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "warning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "severity", "message", "evidence"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "severity": { "enum": ["info", "warning", "critical"] },
+        "message": { "$ref": "#/$defs/nonEmptyString" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "bomContribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["part", "quantity", "reason"],
+      "properties": {
+        "part": { "$ref": "#/$defs/id" },
+        "quantity": { "type": "number", "exclusiveMinimum": 0 },
+        "unit": { "$ref": "#/$defs/nonEmptyString" },
+        "reason": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "capabilityConstraint": {
+      "anyOf": [
+        { "$ref": "#/$defs/capabilityId" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["capability", "explanation"],
+          "properties": {
+            "capability": { "$ref": "#/$defs/capabilityId" },
+            "explanation": { "$ref": "#/$defs/nonEmptyString" },
+            "evidence": { "$ref": "#/$defs/evidence" }
+          }
+        }
+      ]
+    },
+    "option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "slot",
+        "label",
+        "status",
+        "provides",
+        "requires",
+        "conflicts",
+        "assets",
+        "bom",
+        "evidence",
+        "warnings"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "slot": { "$ref": "#/$defs/id" },
+        "label": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "status": {
+          "enum": ["supported", "experimental", "unresolved", "deprecated"]
+        },
+        "provides": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/capabilityId" }
+        },
+        "requires": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/capabilityConstraint" }
+        },
+        "conflicts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/capabilityConstraint" }
+        },
+        "assets": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "bom": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/bomContribution" }
+        },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "warnings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/warning" }
+        }
+      }
+    },
+    "part": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "kind",
+        "specification",
+        "default_unit",
+        "evidence"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "$ref": "#/$defs/nonEmptyString" },
+        "kind": { "$ref": "#/$defs/id" },
+        "specification": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" }
+            ]
+          }
+        },
+        "default_unit": { "$ref": "#/$defs/nonEmptyString" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "offer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "part",
+        "vendor",
+        "region",
+        "currency",
+        "package_quantity",
+        "package_price",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "part": { "$ref": "#/$defs/id" },
+        "vendor": { "$ref": "#/$defs/nonEmptyString" },
+        "region": { "$ref": "#/$defs/nonEmptyString" },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+        "package_quantity": { "type": "number", "exclusiveMinimum": 0 },
+        "package_price": { "type": "number", "minimum": 0 },
+        "updated_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "url": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "format", "source"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "role": { "enum": ["preview"] },
+        "format": { "enum": ["stl", "glb"] },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "path", "commit"],
+          "properties": {
+            "repository": { "$ref": "#/$defs/id" },
+            "path": { "$ref": "#/$defs/nonEmptyString" },
+            "commit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+id: model.middle-pivot
+role: preview
+format: stl
+source:
+  repository: ossm-hardware
+  path: Printed Parts/Actuator/Non-standard/OSSM - Actuator - Body - Middle Pivot.stl
+  commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8

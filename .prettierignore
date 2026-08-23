@@ -1,0 +1,10 @@
+dist
+node_modules
+public/generated
+src/catalog/generated
+package-lock.json
+
+# Preserve the hand-authored documentation's existing layout.
+AGENTS.md
+docs/
+sources/

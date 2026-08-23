@@ -1,0 +1,7 @@
+id: model.pitclamp-mini-57aim-v1
+role: preview
+format: stl
+source:
+  repository: ossm-hardware
+  path: Printed Parts/Mounting/OSSM - Mounting Ring - PitClamp Mini - 57AIM V1.1.stl
+  commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8

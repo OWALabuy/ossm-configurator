@@ -1,0 +1,5 @@
+id: controller
+label: Controller
+description: Selects the control-electronics architecture.
+cardinality: one
+order: 30

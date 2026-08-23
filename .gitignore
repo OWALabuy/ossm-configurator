@@ -2,19 +2,14 @@ node_modules/
 dist/
 .vite/
 coverage/
-.cache/
-.env
-.env.*
-!.env.example
 
-# Downloaded or linked hardware sources
-vendor/ossm-hardware/
-
-# Generated model and catalog output
+# Generated from the validated catalog and pinned hardware source.
 public/generated/
-generated/
+src/catalog/generated/
+sources/.cache/
 
-# Local editor and OS files
+# Local environment and editor files.
+.env
+.env.local
 .DS_Store
-*.swp
-*.swo
+*.log

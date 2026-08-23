@@ -1,0 +1,5 @@
+id: motor_interface
+label: Motor interface
+description: Selects the motor and its physical connector geometry.
+cardinality: one
+order: 10

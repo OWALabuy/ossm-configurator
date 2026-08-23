@@ -1,0 +1,25 @@
+id: toy.suction-plate-135
+slot: toy_interface
+label: 135 mm tie-down and suction plate
+description: Non-standard 135 mm plate for tie-down and suction-cup toy mounting.
+status: supported
+provides:
+  - toy.interface:24mm-thread
+requires: []
+conflicts: []
+assets:
+  - model.suction-plate-135
+bom:
+  - part: printed.toy.suction-plate-135
+    quantity: 1
+    reason: Selected toy interface.
+evidence:
+  state: builder_verified
+  notes: The plate and its use with the audited Clamping Thread End Effector were observed. This option does not infer a global five-sided-nut quantity.
+  sources:
+    - kind: project_document
+      path: docs/HARDWARE_FINDINGS.md
+    - kind: repository
+      path: Printed Parts/Toy Mounting/Non-standard/OSSM - Toy Mounting - Tie Down And Suction Plate 135mm.stl
+      commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8
+warnings: []

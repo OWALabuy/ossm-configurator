@@ -1,0 +1,14 @@
+id: printed.mount.pitclamp-mini-57aim-v1
+label: Printed PitClamp Mini 57AIM V1.1 ring
+kind: printed_part
+specification:
+  source_format: STL
+  connected_solid: true
+default_unit: each
+evidence:
+  state: repository_verified
+  notes: Stable printed-part identity at the locked hardware revision; associated fasteners are intentionally not inferred.
+  sources:
+    - kind: repository
+      path: Printed Parts/Mounting/OSSM - Mounting Ring - PitClamp Mini - 57AIM V1.1.stl
+      commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8

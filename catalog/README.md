@@ -1,11 +1,15 @@
-# Catalog Contract Draft
+# Catalog Contract
 
-The catalog is domain data consumed by a generic configurator. YAML is intended
-for authors; a build step validates and normalizes it to JSON.
+The catalog is domain data consumed by a generic configurator. YAML is the
+authoring format. `catalog/schema/catalog.schema.json` is the canonical shape
+contract; the compiler also validates cross-references, unique IDs, dependency
+cycles, required-slot reachability, quantities, evidence, and asset provenance.
 
-This document is a design draft. The first implementation should turn the
-stable parts into JSON Schema and tests rather than treating the examples as an
-informal parser contract.
+Each record lives in its own YAML file below `capabilities/`, `slots/`,
+`options/`, `parts/`, `offers/`, or `assets/`. `npm run catalog:build` reads the
+directories rather than an import list and emits the single normalized browser
+artifact at `src/catalog/generated/catalog.json`. Generated files must not be
+edited by hand.
 
 ## Entities
 
@@ -41,36 +45,75 @@ requires:
   - motor.rear:ring-passable
 
 conflicts:
-  - motor.interface:pigtail-db9
+  - capability: motor.interface:pigtail-db9
+    explanation: The captive motor tail and DB9 connector cannot pass through the PitClamp Mini's one-piece motor ring.
+    evidence:
+      state: builder_verified
+      notes: The builder physically attempted this combination.
+      sources:
+        - kind: project_document
+          path: docs/HARDWARE_FINDINGS.md
 
 assets:
-  - role: preview
-    source:
-      repository: ossm-hardware
-      path: Printed Parts/Mounting/OSSM - Mounting Ring - PitClamp Mini - 57AIM V1.1.stl
-      commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8
+  - model.pitclamp-mini-57aim-v1
 
 bom:
-  - part: fastener.m5x35.socket-cap
-    quantity: 4
-    reason: Secures the 57AIM ring.
+  - part: printed.mount.pitclamp-mini-57aim-v1
+    quantity: 1
+    reason: Selected motor-mount ring.
 
 evidence:
   state: repository_verified
   notes: The current STL is a single connected solid.
+  sources:
+    - kind: repository
+      path: Printed Parts/Mounting/OSSM - Mounting Ring - PitClamp Mini - 57AIM V1.1.stl
+      commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8
+
+warnings: []
 ```
+
+Simple rules may remain capability strings. A rule object carries the precise,
+catalog-authored explanation and evidence that the resolver should show.
+
+### Asset
+
+Options reference stable asset IDs. Assets separately preserve exact source
+provenance:
+
+```yaml
+id: model.pitclamp-mini-57aim-v1
+role: preview
+format: stl
+source:
+  repository: ossm-hardware
+  path: Printed Parts/Mounting/OSSM - Mounting Ring - PitClamp Mini - 57AIM V1.1.stl
+  commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8
+```
+
+`npm run models:prepare` resolves `OSSM_HARDWARE_PATH`, then the sibling
+checkout, then an exact-SHA cache. It reads `commit:path` from the Git object
+database without switching the hardware checkout. Only referenced models are
+copied. The generated manifest records the source SHA, path, content hash, and
+base-path-relative URL.
 
 ### Part
 
 ```yaml
-id: fastener.m5x35.socket-cap
-label: M5 x 35 mm socket-cap screw
-kind: fastener
+id: printed.mount.pitclamp-mini-57aim-v1
+label: Printed PitClamp Mini 57AIM V1.1 ring
+kind: printed_part
 specification:
-  thread: M5
-  length_mm: 35
-  head: socket_cap
+  source_format: STL
+  connected_solid: true
 default_unit: each
+evidence:
+  state: repository_verified
+  notes: Stable printed-part identity at the locked revision; fasteners are not inferred.
+  sources:
+    - kind: repository
+      path: Printed Parts/Mounting/OSSM - Mounting Ring - PitClamp Mini - 57AIM V1.1.stl
+      commit: fb6f6d616b67528b41445f1dabdab6e6a4a605a8
 ```
 
 A stable part is not a store listing.
@@ -100,10 +143,9 @@ Names should be namespaced:
 ```text
 motor.frame:nema23-57
 motor.interface:pigtail-db9
-motor.protocol:rs485-modbus
 motor.rear:ring-passable
-controller.homing:current-sense
-firmware.homing:sensorless-current
+mount.family:middle-pivot
+controller.family:bare-esp32
 toy.interface:24mm-thread
 ```
 
@@ -115,7 +157,7 @@ fact. Unresolved configurations should carry an evidence/warning state.
 
 ## Evidence
 
-Proposed states:
+States:
 
 ```text
 builder_verified
@@ -136,8 +178,8 @@ line retains all contributors:
 
 ```json
 {
-  "part": "fastener.m5x35.socket-cap",
-  "quantity": 4,
+  "partId": "printed.mount.pitclamp-mini-57aim-v1",
+  "quantity": 1,
   "unit": "each",
   "contributors": ["mount.pitclamp-mini-57aim-v1"]
 }
@@ -165,4 +207,3 @@ scene:
 
 Named interfaces are preferable to scattering unexplained 4x4 matrices through
 frontend code. The scene compiler may resolve them to matrices.
-

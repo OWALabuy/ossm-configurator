@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/KinkyMakers/OSSM-hardware.git",
+  "sshRepository": "git@github.com:KinkyMakers/OSSM-hardware.git",
+  "ref": "fb6f6d616b67528b41445f1dabdab6e6a4a605a8",
+  "upstreamBranch": "staging",
+  "recordedAt": "2026-08-23",
+  "notes": "OSSM hardware version 1.0.51; main and staging pointed to this commit when the initial configurator audit was recorded."
+}
+

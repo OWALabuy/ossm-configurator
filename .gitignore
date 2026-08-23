@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.vite/
+coverage/
+.cache/
+.env
+.env.*
+!.env.example
+
+# Downloaded or linked hardware sources
+vendor/ossm-hardware/
+
+# Generated model and catalog output
+public/generated/
+generated/
+
+# Local editor and OS files
+.DS_Store
+*.swp
+*.swo
